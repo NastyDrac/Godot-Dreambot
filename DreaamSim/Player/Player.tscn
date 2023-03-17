@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player/playerController.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 30.4138
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 4.47214
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="PlayerParent" type="Node2D"]
+modulate = Color( 1, 0.94, 0.94, 1 )
+script = ExtResource( 1 )
+speed = 250
+jumpHeight = 750
+wallGravity = -1
+
+[node name="Player" type="KinematicBody2D" parent="."]
+collision_layer = 3
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource( 2 )
+
+[node name="playerRight" type="Area2D" parent="Player"]
+
+[node name="right" type="CollisionShape2D" parent="Player/playerRight"]
+position = Vector2( 27, -1 )
+shape = SubResource( 3 )
+
+[node name="playerLeft" type="Area2D" parent="Player"]
+position = Vector2( 1, 0 )
+
+[node name="left" type="CollisionShape2D" parent="Player/playerLeft"]
+position = Vector2( -28, 0 )
+shape = SubResource( 3 )
+
+[node name="playerTop" type="Area2D" parent="Player"]
+
+[node name="top" type="CollisionShape2D" parent="Player/playerTop"]
+position = Vector2( 0, -27 )
+shape = SubResource( 3 )
+
+[node name="playerBottom" type="Area2D" parent="Player"]
+
+[node name="bottom" type="CollisionShape2D" parent="Player/playerBottom"]
+position = Vector2( 0, 27 )
+shape = SubResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
+frames = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+zoom = Vector2( 1.5, 1.5 )
+process_mode = 0
+limit_smoothed = true
+smoothing_enabled = true
+
+[connection signal="area_entered" from="Player/playerRight" to="." method="_on_Player_area_entered"]
+[connection signal="area_exited" from="Player/playerRight" to="." method="_on_Player_area_exited"]
+[connection signal="area_entered" from="Player/playerLeft" to="." method="_on_Player_area_entered"]
+[connection signal="area_exited" from="Player/playerLeft" to="." method="_on_Player_area_exited"]
+[connection signal="area_entered" from="Player/playerTop" to="." method="_on_Player_area_entered"]
+[connection signal="area_exited" from="Player/playerTop" to="." method="_on_Player_area_exited"]
+[connection signal="area_entered" from="Player/playerBottom" to="." method="_on_Player_area_entered"]
+[connection signal="area_exited" from="Player/playerBottom" to="." method="_on_Player_area_exited"]
